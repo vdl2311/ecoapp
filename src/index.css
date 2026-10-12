@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-sans-body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  .font-mono-code {
+    font-family: 'Space Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0.5rem);
+  }
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection only in paragraphs, inputs and descriptions */
+p, span, h1, h2, h3, h4, input, textarea {
+  user-select: text;
+}
+
+body {
+  background-color: #F6F8F5;
+  color: #142816;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D3DDD2;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #AABEA8;
+}
+
+/* Standalone mobile app tweaks */
+@media all and (display-mode: standalone) {
+  body {
+    /* Prevent rubber-banding on iOS standalone when navigating */
+    overscroll-behavior-y: none;
+  }
+}

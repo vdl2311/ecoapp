@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Represents an authenticated user profile (citizen, merchant or SESUMA agent).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 256 },
+        "name": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "role": { "type": "string", "enum": ["citizen", "merchant", "agent"] },
+        "neighborhood": { "type": "string", "maxLength": 120 },
+        "points": { "type": "number" },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "businessName": { "type": "string", "maxLength": 150 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "email", "name", "role", "neighborhood", "points"]
+    },
+    "PointsTransaction": {
+      "title": "Points Transaction",
+      "description": "Record of earned or spent EcoPoints for actions such as recycling, selective collection, or partner coupons.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["earned", "spent"] },
+        "amount": { "type": "number" },
+        "description": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 60 },
+        "timestamp": { "type": "string", "maxLength": 60 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "type", "amount", "description", "category"]
+    },
+    "Donation": {
+      "title": "Swap / Donation Item",
+      "description": "EcoTroca community listing for furniture, clothes, electronics or books donated between Ipatinga residents.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 140 },
+        "category": { "type": "string", "enum": ["moveis", "eletronicos", "roupas", "livros", "plantas", "eletrodomesticos", "outros"] },
+        "type": { "type": "string", "enum": ["doacao", "troca"] },
+        "condition": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 800 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "authorNeighborhood": { "type": "string", "maxLength": 120 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "available": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "category", "type", "description", "authorId", "authorName", "available"]
+    },
+    "EnvironmentalReport": {
+      "title": "Environmental Report",
+      "description": "Citizen report of irregular waste dumping, clogged drains or debris in Ipatinga neighborhoods.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "protocol": { "type": "string", "maxLength": 50 },
+        "type": { "type": "string", "enum": ["descarte_irregular", "lixo_acumulado", "entulho_calcada", "terreno_sujo", "bueiro_entupido"] },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "address": { "type": "string", "maxLength": 200 },
+        "status": { "type": "string", "enum": ["recebido", "em_analise", "equipe_a_caminho", "resolvido"] },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "upvotes": { "type": "number" },
+        "reportedAt": { "type": "string", "maxLength": 60 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "responseNote": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "protocol", "type", "title", "description", "address", "status", "authorId", "authorName"]
+    },
+    "PickupRequest": {
+      "title": "Cata-Treco Pickup Request",
+      "description": "Free municipal pickup request for bulky items (furniture, appliances) scheduled by residents.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "protocol": { "type": "string", "maxLength": 50 },
+        "itemType": { "type": "string", "maxLength": 60 },
+        "itemQuantity": { "type": "string", "maxLength": 100 },
+        "preferredDate": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 200 },
+        "neighborhood": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["agendado", "confirmado", "coletado"] },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "protocol", "itemType", "address", "neighborhood", "phone", "status", "authorId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles storing points and identity."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "PointsTransaction",
+      "description": "Subcollection of EcoPoints transactions for a user."
+    },
+    "/donations/{donationId}": {
+      "schema": "Donation",
+      "description": "Public community donation items posted by residents."
+    },
+    "/reports/{reportId}": {
+      "schema": "EnvironmentalReport",
+      "description": "Community environmental reports and dumping alerts."
+    },
+    "/pickups/{pickupId}": {
+      "schema": "PickupRequest",
+      "description": "Cata-Treco pickup scheduling records."
+    }
+  }
+}

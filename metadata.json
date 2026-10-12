@@ -1,0 +1,6 @@
+{
+  "name": "EcoApp",
+  "description": "Aplicativo comunitário para sustentabilidade urbana, mapa de descarte e ecopontos, calendário de coleta, doações entre vizinhos e benefícios no comércio local de Ipatinga - MG.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
